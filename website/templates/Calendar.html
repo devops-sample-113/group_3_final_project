@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}行事曆{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+        <form action="/calendar" method="POST" style="display:inline;">
+            <input type="hidden" name="year" value="{{ date.year - 1 }}">
+            <button type="submit" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> 上一年
+            </button>
+        </form>
+
+        <h3 class="text-center">你的行事曆</h3>
+
+        <form action="/calendar" method="POST" style="display:inline;">
+            <input type="hidden" name="year" value="{{ date.year + 1 }}">
+            <button type="submit" class="btn btn-secondary">
+                下一年 <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+    </div>
+    <h4 class="text-center">{{ date.year }}</h4>
+
+    {% set week_addr = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] %}
+    <style>
+        table {
+            border: 5px solid #000000; /* 更改為你想要的顏色 */
+        }
+    </style>
+    <div class="row">
+        {% for month_addr, monthInfo in content.items() %}
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 month-box">
+            <h4 class="text-center">{{month_addr}}</h4>
+            {% with _month=false %}
+            {% if month_addr == this_month %}
+                <table style="background-color:#a6e1ec" class="table table-bordered">
+                {% set _month = true %}
+            {% else %}
+                <table class="table table-bordered">
+            {% endif %}
+                    <tr>
+                        {% for addr in week_addr %}
+                            <th>{{addr}}</th>
+                        {% endfor %}
+                    </tr>
+                    {% for weeks in monthInfo %}
+                    <tr>
+                        {% for day in weeks %}
+                        {% if day == 0 %}
+                        <td>&nbsp;</td>
+                        {% elif _month == true and day == date.day %}
+                        <td style="background-color:hotpink;">{{ day }}</td>
+                        {% else %}
+                        <td>{{ day }}</td>
+                        {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+            {% endwith %}
+                </table>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

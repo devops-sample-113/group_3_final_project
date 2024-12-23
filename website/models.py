@@ -1,7 +1,9 @@
+from flask import Flask, render_template, request, jsonify
 from flask_login import UserMixin
 from . import db
 from sqlalchemy.sql import func
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 
 class User(db.Model, UserMixin):
@@ -11,7 +13,7 @@ class User(db.Model, UserMixin):
         self.email = email
         self.name = name
         self.password = password
-    
+
     def get_id(self):
         return (self.user_id)
 
@@ -26,3 +28,9 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"id: {self.user_id}, email: {self.email}, name: {self.name}"
+
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    start = db.Column(db.String(100), nullable=False)
+    end = db.Column(db.String(100), nullable=False)
