@@ -11,6 +11,37 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/util.js') }}" type="text/javascript"></script>
     <title>{% block title %}{% endblock %}</title>
+
+    <!--Background-->
+    <style>
+         .dark-mode {
+          background-color: #2C2F33; /* Discord 深色背景 */
+          color: #99AAB5; /* Discord 淺灰文字 */
+         }
+     /* 按鈕樣式 */
+    .toggle-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    /* 按鈕in黑夜 */
+    .dark-mode .toggle-btn {
+      background-color: #555;
+    }
+  </style>
+      </style>
+
+
 </head>
 
 <body>
@@ -31,6 +62,34 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">期末專題</a>
           </li>
+          <li>
+            <li class="bg-change">
+                <button type="button" class="btn btn-dark toggle-btn">夜間模式</button>
+            </li>
+
+            /*按鈕監聽開始*/
+            <script>
+
+                document.addEventListener('DOMContentLoaded', () => {
+                  // 獲取按鈕
+                  const toggleButton = document.querySelector('.toggle-btn');
+
+                  // 綁定按鈕
+                  toggleButton.addEventListener('click', () => {
+                    // 切換dark-mode
+                    document.body.classList.toggle('dark-mode');
+
+
+                    if (document.body.classList.contains('dark-mode')) {
+                      toggleButton.textContent = '白天模式';
+                    } else {
+                      toggleButton.textContent = '夜間模式';
+                    }
+                  });
+                });
+              </script>
+            /*按鈕監聽結束*/
+
         </ul>
         <!-- <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -50,6 +109,8 @@
                 </li>
             {% endif %}
         </ul>
+
+
       </div>
     </div>
   </nav>
