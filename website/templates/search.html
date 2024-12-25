@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Search{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">搜尋</h1>
+    <div class="mb-3">
+        <!-- <label for="keyword" class="form-label">關鍵字搜尋</label> -->
+        <input type="text" id="keyword" name="keyword" class="form-control" placeholder="輸入關鍵字" required>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<br>
+<!-- {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %} -->
+
+<!-- 顯示推薦項目 -->
+{% if recommendations %}
+    <h3>推薦項目：</h3>
+    <ul>
+        {% for item in recommendations %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if keyword %}
+    <h3>搜尋結果：</h3>
+    <p>與 '{{ keyword }}' 相關的內容將在這裡顯示。</p>
+{% endif %}
+{% endblock %}
