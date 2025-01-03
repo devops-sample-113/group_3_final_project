@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幸運輪盤</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        #wheelCanvas {
+            display: block;
+            margin: 20px auto;
+        }
+        .controls {
+            margin: 20px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #customAlert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 2px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        #customAlert p {
+            margin: 0 0 20px;
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <h1>幸運輪盤</h1>
+    <canvas id="wheelCanvas" width="500" height="500"></canvas>
+    <div class="controls">
+        <input type="text" id="itemInput" placeholder="輸入選項">
+        <button onclick="addItem()">新增項目</button>
+        <button onclick="resetWheel()">重設輪盤</button>
+        <button onclick="spinWheel()">旋轉輪盤</button>
+    </div>
+    <div id="overlay"></div>
+    <div id="customAlert">
+        <p id="alertMessage"></p>
+        <button onclick="closeAlert()">確定</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        const radius = canvas.width / 2;
+        const items = ["火鍋", "燒肉", "滷肉飯", "義大利麵", "蛋包飯", "咖哩飯"]; // 預設選項
+        let currentAngle = 0;
+
+        function drawWheel() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空畫布
+
+            if (items.length === 0) {
+                ctx.fillStyle = "#ddd"; // 空輪盤顏色
+                ctx.beginPath();
+                ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
+                ctx.closePath();
+                ctx.fill();
+            } else {
+                const anglePerSlice = 2 * Math.PI / items.length;
+
+                items.forEach((item, index) => {
+                    const startAngle = index * anglePerSlice + currentAngle;
+                    const endAngle = startAngle + anglePerSlice;
+
+                    ctx.fillStyle = `hsl(${(index * 360) / items.length}, 70%, 70%)`;
+                    ctx.beginPath();
+                    ctx.moveTo(radius, radius);
+                    ctx.arc(radius, radius, radius, startAngle, endAngle);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.save();
+                    ctx.translate(radius, radius);
+                    ctx.rotate(startAngle + anglePerSlice / 2);
+                    ctx.textAlign = "right";
+                    ctx.fillStyle = "#000";
+                    ctx.font = "16px Arial";
+                    ctx.fillText(item, radius - 10, 10);
+                    ctx.restore();
+                });
+            }
+
+            drawPointer();
+        }
+
+        function drawPointer() {
+            ctx.fillStyle = "red";
+            ctx.beginPath();
+            ctx.moveTo(radius * 2 - 30, radius);
+            ctx.lineTo(radius * 2 - 10, radius - 10);
+            ctx.lineTo(radius * 2 - 10, radius + 10);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function addItem() {
+            const itemInput = document.getElementById("itemInput");
+            const newItem = itemInput.value.trim();
+            if (newItem) {
+                items.push(newItem);
+                itemInput.value = "";
+                drawWheel();
+            } else {
+                showAlert("請輸入有效的選項！");
+            }
+        }
+
+        function resetWheel() {
+            items.length = 0;
+            currentAngle = 0;
+            drawWheel();
+        }
+
+        function spinWheel() {
+            if (items.length === 0) {
+                showAlert("請新增選項！");
+                return;
+            }
+
+            const spinDuration = 3000;
+            const spinSpeed = Math.random() * 5 + 5;
+            const totalRotation = spinSpeed * spinDuration / 1000;
+            const finalAngle = currentAngle + totalRotation;
+
+            let start = null;
+            function animate(timestamp) {
+                if (!start) start = timestamp;
+                const elapsed = timestamp - start;
+
+                if (elapsed < spinDuration) {
+                    currentAngle += (finalAngle - currentAngle) * (elapsed / spinDuration);
+                    drawWheel();
+                    requestAnimationFrame(animate);
+                } else {
+                    currentAngle = finalAngle % (2 * Math.PI);
+                    drawWheel();
+                    const selectedItemIndex = Math.floor(items.length * (1 - currentAngle / (2 * Math.PI))) % items.length;
+                    showAlert(`${items[selectedItemIndex]}`);
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        function showAlert(message) {
+            document.getElementById("alertMessage").textContent = message;
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("customAlert").style.display = "block";
+        }
+
+        function closeAlert() {
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("customAlert").style.display = "none";
+        }
+
+        drawWheel();
+    </script>
+</body>
+</html>
