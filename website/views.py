@@ -8,7 +8,8 @@ from googleapiclient.discovery import build
 
 
 views = Blueprint("views", __name__)
-RECOMMENDED_ITEMS = ["推薦項目一", "推薦項目二", "推薦項目三"]
+
+RECOMMENDED_ITEMS = ["冥想課程", "放鬆瑜伽", "大自然露營", "音樂療癒", "手作課程"]
 
 API_KEY = "AIzaSyCOkhpfgz_gmnyRyee-wW06MEdIPwUUoSc"  
 CSE_ID = "e2b3823040bc04198"  
@@ -29,7 +30,7 @@ def home():
 def search():
     keyword = ""
     results = None
-
+    recommendations = []
     if request.method == "POST":
         keyword = request.form.get("keyword", "").strip()
 
@@ -37,15 +38,16 @@ def search():
         if not keyword:
             flash("請輸入關鍵字！", category="error")
         elif re.match("^[a-zA-Z0-9]+$", keyword):
-            flash("請重新輸入關鍵字！", category="error")
-            keywords = ["舒壓活動","熱門休閒活動"]
-            keyword = keywords[random.randint(0,1)]
-            results = search_google_api(keyword)
-            return render_template("search.html", user=current_user, keyword=None, results=results)
+            flash("無搜尋結果，請重新輸入關鍵字！", category="error")
+            recommendations = random.sample(RECOMMENDED_ITEMS, 3)
+            # keywords = ["舒壓方式","熱門休閒活動"]
+            # keyword = keywords[random.randint(0,1)]
+            # results = search_google_api(keyword)
+            # return render_template("search.html", user=current_user, keyword=None, results=results)
         else:
             # 調用 API 搜尋
             results = search_google_api(keyword)
             if not results:
                 flash(f"未找到與 '{keyword}' 相關的結果。", category="info")
-
-    return render_template("search.html", user=current_user, keyword=keyword, results=results)
+                recommendations = random.sample(RECOMMENDED_ITEMS, 3)
+    return render_template("search.html", user=current_user, keyword=keyword, results=results,recommendations=recommendations)

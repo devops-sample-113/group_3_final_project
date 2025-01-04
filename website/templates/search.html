@@ -22,5 +22,13 @@
         {% endfor %}
     </ul>
     {% endif %}
+    {% if recommendations %}
+    <h3>推薦項目：</h3>
+    <ul>
+        {% for item in recommendations %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 </div>
 {% endblock %}
