@@ -26,11 +26,25 @@ class User(db.Model, UserMixin):
     def get_id(self):
         return (self.user_id)
 
+    def get_email(self):
+        return (self.email)
+
     def __repr__(self):
         return f"id: {self.user_id}, email: {self.email}, name: {self.name}"
 
 class Event(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    def __init__(self, email, title, start, notification):
+        self.email = email
+        self.title = title
+        self.start = start
+        self.notification = notification
+        self.sent = False
+
+    event_id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(100), nullable=False)
-    start = db.Column(db.String(100), nullable=False)
-    end = db.Column(db.String(100), nullable=False)
+    # start = db.Column(db.String(100), nullable=False)
+    # end = db.Column(db.String(100), nullable=False)
+    start = db.Column(db.String(100))
+    notification = db.Column(db.String(100))
+    sent = db.Column(db.Boolean)

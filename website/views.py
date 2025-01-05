@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, session, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import User
+from .models import User, Event
 from . import db
 from datetime import datetime, timedelta
 import os, sys, re
@@ -45,9 +45,14 @@ def Calendar():
 
         elif form_id == 'add_event':
             event_date = request.form.get('eventDate')
+            notification_time = request.form.get('notification_time')
             event = request.form.get('eventText')
             submit_type = request.form.get('submit_type')
             print(event_date, event)
+            
+            new_event = Event(current_user.get_email(), event, datetime.strptime(event_date, '%Y-%m-%dT%H:%M'), datetime.strptime(notification_time, '%Y-%m-%dT%H:%M'))
+            db.session.add(new_event)
+            db.session.commit()
 
             date_only = event_date.split('T')[0]
             time = event_date.split('T')[1]
