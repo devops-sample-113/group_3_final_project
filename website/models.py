@@ -26,3 +26,23 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"id: {self.user_id}, email: {self.email}, name: {self.name}"
+
+class Activity(db.Model):
+    __tablename__ = "activities"
+
+    def __init__(self, name, description, tags, image_filename):
+        self.name = name
+        self.description = description
+        self.tags = tags
+        self.image_filename = image_filename
+
+    activity_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255), nullable=True)
+    tags = db.Column(db.String(255), nullable=True)
+    image_filename = db.Column(db.String(100), nullable=True)  
+
+    def __repr__(self):
+        return f"Activity(id: {self.activity_id}, name: {self.name}, tags: {self.tags}, image: {self.image_filename})"
+
+
