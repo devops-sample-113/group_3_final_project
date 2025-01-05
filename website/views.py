@@ -32,8 +32,7 @@ def search():
     recommendations = []
     if request.method == "POST":
         keyword = request.form.get("keyword", "").strip()
-
-        # 檢查是否輸入有效文字
+        
         if not keyword:
             flash("請輸入關鍵字！", category="error")
         elif re.match("^[a-zA-Z0-9]+$", keyword):
