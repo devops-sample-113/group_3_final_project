@@ -128,6 +128,7 @@
                                             <input type="hidden" name="form_id" value="delete_event">
                                             <input type="hidden" name="eventDate" value="{{ full_date }}">
                                             <input type="hidden" name="event" value="{{ event }}">
+                                            <input type="hidden" name="eventTime" value="{{full_date}} {{ event_time.strftime('%H:%M') }}">
                                             <button type="submit" class="btn btn-danger btn-sm">x</button>
                                         </form>
                                         <small>{{ event_time.strftime('%H:%M') }} : {{ event }}</small>&nbsp;&nbsp;&nbsp;
@@ -145,6 +146,7 @@
                                                 <input type="hidden" name="form_id" value="delete_event">
                                                 <input type="hidden" name="eventDate" value="{{ full_date }}">
                                                 <input type="hidden" name="event" value="{{ event }}">
+                                                <input type="hidden" name="eventTime" value="{{full_date}} {{ event_time.strftime('%H:%M') }}">
                                                 <button type="submit" class="btn btn-danger btn-sm">x</button>
                                             </form>
                                             <small>{{ event_time.strftime('%H:%M') }} : {{ event }}</small>&nbsp;&nbsp;&nbsp;

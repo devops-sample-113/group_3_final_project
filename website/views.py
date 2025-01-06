@@ -47,7 +47,6 @@ def Calendar():
             event_date = request.form.get('eventDate')
             event = request.form.get('eventText')
             submit_type = request.form.get('submit_type')
-            print(event_date, event)
 
             date_only = event_date.split('T')[0]
             time = event_date.split('T')[1]
@@ -69,13 +68,18 @@ def Calendar():
                 events[date_only] = []
 
             events[date_only].append((event_time, event))
+            # print(events[date_only])
 
         elif form_id == 'delete_event':
             event_date = request.form.get('eventDate')
             event = request.form.get('event')
-            print(event_date, event)
+            event_time = request.form.get('eventTime')
+            event_time = datetime.strptime(event_time, '%Y-%m-%d %H:%M')
+            # print(event_date, event, event_time)
             if event_date in events:
-                events[event_date] = [e for e in events[event_date] if e[1] != event]
+                # print(events[event_date])
+                events[event_date] = [e for e in events[event_date] if not (e[1] == event and e[0] == event_time)]
+                # print(events[event_date])
                 if not events[event_date]:
                     del events[event_date]
 
