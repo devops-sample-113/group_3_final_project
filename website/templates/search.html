@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}搜尋結果{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <form method="POST" class="mb-4">
+        <h1 class="text-center mb-4">搜尋</h1>
+        <div class="mb-3">
+            <input type="text" id="keyword" name="keyword" class="form-control form-control-lg" placeholder="輸入關鍵字">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg w-100">搜尋</button>
+    </form>
+
+    <br>
+
+    <!-- 顯示 Google API 搜尋結果 -->
+    {% if google_results %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>搜尋結果</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for item in google_results %}
+                <li class="list-group-item mb-3">
+                    <a href="{{ item.link }}" target="_blank" class="h5 text-decoration-none"  style="color: #007bff;">{{ item.title }}</a>
+                    <p class="mt-2 text-muted">{{ item.snippet }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- 顯示來自資料庫的活動結果 -->
+    {% if activity_results %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>活動搜尋結果</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for item in activity_results %}
+                <li class="list-group-item mb-3 d-flex align-items-center">
+                    <div class="me-3">
+                        <!-- 顯示圖片 -->
+                        {% if item.image_filename %}
+                        <img src="{{ url_for('static', filename='pictures/' + item.image_filename) }}" alt="{{ item.name }}" class="img-fluid" style="width: 150px; height: auto;">
+                        {% endif %}
+                    </div>
+                    <div>
+                        <strong>{{ item.name }}</strong>
+                        <p>{{ item.description }}</p>
+                        <!-- 顯示 Google 搜尋連結 -->
+                        <a href="https://www.google.com/search?q={{ item.name }}" target="_blank" class="btn btn-outline-primary btn-sm">Google 搜尋</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- 顯示推薦項目 -->
+    {% if recommendations %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>推薦項目</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for item in recommendations %}
+                <li class="list-group-item mb-3 d-flex align-items-center">
+                    <div class="me-3">
+                        <!-- 顯示圖片 -->
+                        {% if item.image_filename %}
+                        <img src="{{ url_for('static', filename='pictures/' + item.image_filename) }}" alt="{{ item.name }}" class="img-fluid" style="width: 150px; height: auto;">
+                        {% endif %}
+                    </div>
+                    <div>
+                        <strong>{{ item.name }}</strong>
+                        <p>{{ item.description }}</p>
+                        <!-- 顯示 Google 搜尋連結 -->
+                        <a href="https://www.google.com/search?q={{ item.name }}" target="_blank" class="btn btn-outline-primary btn-sm">Google 搜尋</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

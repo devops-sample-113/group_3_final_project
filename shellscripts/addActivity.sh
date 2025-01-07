@@ -1,0 +1,1 @@
+python ./addFunctions/addActivities.py
