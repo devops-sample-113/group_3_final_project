@@ -1,197 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/util.js') }}" type="text/javascript"></script>
     <title>{% block title %}{% endblock %}</title>
 
     <!--Background-->
     <style>
-      /* 夜間模式（Discord 風格） */
-      .dark-mode {
-          background-color: #2C2F33; /* Discord 深色背景 */
-          color: #99AAB5; /* Discord 淺灰文字 */
-      }
-      
-      /* navbar 樣式切換 */
-      .navbar-light-mode {
-          background-color: #f8f9fa; /* 白底 */
-          color: black; /* 黑字 */
-      }
-      
-      .navbar-dark-mode {
-          background-color: #1e2124; /* 夜間深色底 */
-          color: #99AAB5; /* Discord 灰 */
-      }
-      
-      /* navbar 內選項文字顏色同步 */
-      .navbar-dark-mode .nav-link,
-      .navbar-dark-mode .navbar-brand {
-          color: #99AAB5; /* 夜間文字 Discord 灰 */
-      }
-      
-      /* hover 效果 */
-      .navbar-dark-mode .nav-link:hover,
-      .navbar-dark-mode .navbar-brand:hover {
-          color: #ffffff; /* 夜間模式下 hover 高亮 */
-      }
-      
-      /* 白天模式的選項顏色 */
-      .navbar-light-mode .nav-link,
-      .navbar-light-mode .navbar-brand {
-          color: black; /* 白天文字黑色 */
-      }
-      
-      .navbar-light-mode .nav-link:hover,
-      .navbar-light-mode .navbar-brand:hover {
-          color: #555555; /* 白天 hover 深灰色 */
-      }
-      
-      /* 按鈕樣式 */
-      .toggle-btn {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          padding: 10px 20px;
-          font-size: 16px;
-          background-color: white;
-          color: black;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-      }
-      
-      /* 按鈕 in 夜間模式 */
-      .dark-mode .toggle-btn {
-          background-color: #555; /* 夜間按鈕背景 */
-          color: #99AAB5; /* 夜間按鈕文字 */
-      }
-      </style>
-      
-  
+        /* 夜間模式（Discord 風格） */
+        .dark-mode {
+            background-color: #2C2F33;
+            /* Discord 深色背景 */
+            color: #99AAB5;
+            /* Discord 淺灰文字 */
+        }
+
+        /* navbar 樣式切換 */
+        .navbar-light-mode {
+            background-color: #f8f9fa;
+            /* 白底 */
+            color: black;
+            /* 黑字 */
+        }
+
+        .navbar-dark-mode {
+            background-color: #1e2124;
+            /* 夜間深色底 */
+            color: #99AAB5;
+            /* Discord 灰 */
+        }
+
+        /* navbar 內選項文字顏色同步 */
+        .navbar-dark-mode .nav-link,
+        .navbar-dark-mode .navbar-brand {
+            color: #99AAB5;
+            /* 夜間文字 Discord 灰 */
+        }
+
+        /* hover 效果 */
+        .navbar-dark-mode .nav-link:hover,
+        .navbar-dark-mode .navbar-brand:hover {
+            color: #ffffff;
+            /* 夜間模式下 hover 高亮 */
+        }
+
+        /* 白天模式的選項顏色 */
+        .navbar-light-mode .nav-link,
+        .navbar-light-mode .navbar-brand {
+            color: black;
+            /* 白天文字黑色 */
+        }
+
+        .navbar-light-mode .nav-link:hover,
+        .navbar-light-mode .navbar-brand:hover {
+            color: #555555;
+            /* 白天 hover 深灰色 */
+        }
+
+        /* 按鈕樣式 */
+        .toggle-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* 按鈕 in 夜間模式 */
+        .dark-mode .toggle-btn {
+            background-color: #555;
+            /* 夜間按鈕背景 */
+            color: #99AAB5;
+            /* 夜間按鈕文字 */
+        }
+    </style>
+
+
 
 
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light-mode"><!--動態變更navbar顏色-->
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/home">生活幫手</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/calendar">行事曆</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/search">搜尋</a>
-          </li>
-          <li>
-            <li class="bg-change">
-                <button type="button" class="btn btn-dark toggle-btn">夜間模式</button>
-            </li>
-              
-       
-            <script>
-              document.addEventListener('DOMContentLoaded', () => {
-                  const toggleButton = document.querySelector('.toggle-btn');
-                  const navbar = document.querySelector('.navbar');
-                  const navLinks = document.querySelectorAll('.nav-link'); 
-                  const navbarBrand = document.querySelector('.navbar-brand'); 
-          
-                  toggleButton.addEventListener('click', () => {
-                      // 切換 dark-mode
-                      document.body.classList.toggle('dark-mode');
-          
-                      // 切換 navbar 樣式
-                      if (navbar.classList.contains('navbar-light-mode')) {
-                          navbar.classList.remove('navbar-light-mode');
-                          navbar.classList.add('navbar-dark-mode');
-          
-                          // 設置文字顏色為 Discord 灰
-                          navLinks.forEach(link => link.style.color = '#99AAB5');
-                          navbarBrand.style.color = '#99AAB5'; 
-                      } else {
-                          navbar.classList.remove('navbar-dark-mode');
-                          navbar.classList.add('navbar-light-mode');
-          
-                          // 恢復文字顏色為默認
-                          navLinks.forEach(link => link.style.color = '');
-                          navbarBrand.style.color = '';
-                      }
-          
-                      // 更新按鈕文字
-                      toggleButton.textContent = document.body.classList.contains('dark-mode') 
-                          ? '白天模式' 
-                          : '夜間模式';
-                  });
-              });
-          </script>
-          
-          
+    <nav class="navbar navbar-expand-lg navbar-light-mode"><!--動態變更navbar顏色-->
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/home">生活幫手</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item"></li>
+                    <a class="nav-link active" aria-current="page" href="/calendar">行事曆</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/spin_the_wheel">轉盤</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/search">搜尋</a>
+                    </li>
+                    <li>
+                    <li class="bg-change">
+                        <button type="button" class="btn btn-dark toggle-btn">夜間模式</button>
+                    </li>
 
-        </ul>
-        <!-- <form class="d-flex" role="search">
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const toggleButton = document.querySelector('.toggle-btn');
+                            const navbar = document.querySelector('.navbar');
+                            const navLinks = document.querySelectorAll('.nav-link');
+                            const navbarBrand = document.querySelector('.navbar-brand');
+
+                            toggleButton.addEventListener('click', () => {
+                                // 切換 dark-mode
+                                document.body.classList.toggle('dark-mode');
+
+                                // 切換 navbar 樣式
+                                if (navbar.classList.contains('navbar-light-mode')) {
+                                    navbar.classList.remove('navbar-light-mode');
+                                    navbar.classList.add('navbar-dark-mode');
+
+                                    // 設置文字顏色為 Discord 灰
+                                    navLinks.forEach(link => link.style.color = '#99AAB5');
+                                    navbarBrand.style.color = '#99AAB5';
+                                } else {
+                                    navbar.classList.remove('navbar-dark-mode');
+                                    navbar.classList.add('navbar-light-mode');
+
+                                    // 恢復文字顏色為默認
+                                    navLinks.forEach(link => link.style.color = '');
+                                    navbarBrand.style.color = '';
+                                }
+
+                                // 更新按鈕文字
+                                toggleButton.textContent = document.body.classList.contains('dark-mode')
+                                    ? '白天模式'
+                                    : '夜間模式';
+                            });
+                        });
+                    </script>
+
+
+
+                </ul>
+                <!-- <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form> -->
-        <ul class="navbar-nav me-end mb-2 mb-lg-0">
-            {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/sign-up">Sign Up</a>
-                </li>
-            {% endif %}
-        </ul>
+                <ul class="navbar-nav me-end mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/sign-up">Sign Up</a>
+                    </li>
+                    {% endif %}
+                </ul>
 
-        
-      </div>
+
+            </div>
+        </div>
+    </nav>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% if category == 'error' %}
+    <div class="alert alert-danger alter-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
-  </nav>
+    {% else %}
+    <div class="alert alert-success alter-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 
+    <div class="container">{% block content %}{% endblock %}</div>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-{% for category, message in messages %}
-{% if category == 'error' %}
-<div class="alert alert-danger alter-dismissible fade show" role="alert">
-    {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
-{% else %}
-<div class="alert alert-success alter-dismissible fade show" role="alert">
-    {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
-{% endif %}
-{% endfor %}
-{% endif %}
-{% endwith %}
-
-<div class="container">{% block content %}{% endblock %}</div>
-
-{% block footer %}
-{% endblock %}
+    {% block footer %}
+    {% endblock %}
 
 </body>
+
 </html>

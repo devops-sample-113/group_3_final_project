@@ -153,3 +153,9 @@ def search():
                     flash(f"未找到與 '{keyword}' 相關的資料庫結果。", category="error")
                     recommendations = Activity.query.order_by(db.func.random()).limit(5).all()
     return render_template("search.html", user=current_user, keyword=keyword, google_results=google_results,activity_results=activity_results,recommendations=recommendations)
+
+
+
+@views.route("/spin_the_wheel")
+def spin_the_wheel():
+    return render_template("spin_the_wheel.html", user=current_user)
