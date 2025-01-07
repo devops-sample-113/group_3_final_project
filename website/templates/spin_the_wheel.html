@@ -59,6 +59,7 @@
         <button onclick="addItem()">新增項目</button>
         <button onclick="resetWheel()">重設輪盤</button>
         <button onclick="spinWheel()">旋轉輪盤</button>
+        <button onclick="goBack()">返回</button>
     </div>
     <div id="overlay"></div>
     <div id="customAlert">
@@ -69,14 +70,14 @@
         const canvas = document.getElementById('wheelCanvas');
         const ctx = canvas.getContext('2d');
         const radius = canvas.width / 2;
-        const items = ["火鍋", "燒肉", "滷肉飯", "義大利麵", "蛋包飯", "咖哩飯"]; // 預設選項
+        const items = ["火鍋", "燒肉", "滷肉飯", "義大利麵", "蛋包飯", "咖哩飯"];
         let currentAngle = 0;
 
         function drawWheel() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空畫布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (items.length === 0) {
-                ctx.fillStyle = "#ddd"; // 空輪盤顏色
+                ctx.fillStyle = "#ddd";
                 ctx.beginPath();
                 ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
                 ctx.closePath();
@@ -176,6 +177,10 @@
         function closeAlert() {
             document.getElementById("overlay").style.display = "none";
             document.getElementById("customAlert").style.display = "none";
+        }
+
+        function goBack() {
+            window.history.back();
         }
 
         drawWheel();

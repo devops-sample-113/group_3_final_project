@@ -15,6 +15,5 @@ def home():
 
 
 @views.route("/spin_the_wheel")
-@login_required
 def spin_the_wheel():
     return render_template("spin_the_wheel.html", user=current_user)
