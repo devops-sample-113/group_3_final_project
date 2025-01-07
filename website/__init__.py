@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+import subprocess
 
 db = SQLAlchemy()
 
@@ -29,5 +30,5 @@ def create_app():
     @login_manager.user_loader
     def load_user(idx):
         return User.query.get(int(idx))
-
+    subprocess.Popen(["python", "addFunctions/addActivities.py"])
     return app
