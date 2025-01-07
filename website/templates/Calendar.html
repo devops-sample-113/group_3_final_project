@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %}行事曆{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+        <form action="/calendar" method="POST" style="display:inline;">
+            <input type="hidden" name="form_id" value="update_year">
+            <input type="hidden" name="year" value="{{ date.year - 1 }}">
+            <button type="submit" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> 上一年
+            </button>
+        </form>
+
+        <h3 class="text-center">你的行事曆</h3>
+
+        <form action="/calendar" method="POST" style="display:inline;">
+            <input type="hidden" name="form_id" value="update_year">
+            <input type="hidden" name="year" value="{{ date.year + 1 }}">
+            <button type="submit" class="btn btn-secondary">
+                下一年 <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+    </div>
+    <h4 class="text-center">{{ date.year }}</h4>
+
+    {% set week_addr = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] %}
+    <style>
+        table {
+            border: 5px solid #000000;
+        }
+        td {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            vertical-align: text-top;
+            padding: 10px;
+        }
+        th {
+            text-align: center;
+            padding: 10px;
+        }
+        .month-box {
+            margin-bottom: 10px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .col-12 {
+            flex: 0 0 33.33%;
+            box-sizing: border-box;
+        }
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 20px;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        .floating-btn:hover {
+            background-color: #0056b3;
+        }
+        .datetime-popup {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .datetime-popup input {
+            width: 250px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+    {% set month_mapping = {
+        'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
+        'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+    } %}
+    <div class="row">
+        {% for month_addr, monthInfo in content.items() %}
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 month-box">
+            <h4 class="text-center">{{month_addr}}</h4>
+            {% with _month=false %}
+            {% if month_addr == this_month %}
+                <table style="background-color:#a6e1ec" class="table table-bordered">
+                {% set _month = true %}
+            {% else %}
+                <table class="table table-bordered">
+            {% endif %}
+                    <tr>
+                        {% for addr in week_addr %}
+                            <th>{{addr}}</th>
+                        {% endfor %}
+                    </tr>
+                    {% for weeks in monthInfo %}
+                    <tr>
+                        {% for day in weeks %}
+                        {% set month_num = month_mapping[month_addr] %}
+                        {% set full_date = date.year ~ '-' ~ month_num ~ '-' ~ "%02d"|format(day) %}
+                        {% if day == 0 %}
+                        <td>&nbsp;</td>
+                        {% elif _month == true and day == date.day %}
+                        <td style="background-color:hotpink;">{{ day }}
+                            {% if full_date in events %}
+                                <div style="max-width: 60px; overflow-x: auto; white-space: nowrap; border: 1px solid #ddd; padding: 5px;">
+                                    {% for event_time, event in events[full_date] %}
+                                        <form action="/calendar" method="POST" style="display:inline;">
+                                            <input type="hidden" name="form_id" value="delete_event">
+                                            <input type="hidden" name="eventDate" value="{{ full_date }}">
+                                            <input type="hidden" name="event" value="{{ event }}">
+                                            <input type="hidden" name="eventTime" value="{{full_date}} {{ event_time.strftime('%H:%M') }}">
+                                            <button type="submit" class="btn btn-danger btn-sm">x</button>
+                                        </form>
+                                        <small>{{ event_time.strftime('%H:%M') }} : {{ event }}</small>&nbsp;&nbsp;&nbsp;
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </td>
+                        {% else %}
+                            <td>{{ day }}
+                                {% if full_date in events %}
+                                    <div style="max-width: 60px; overflow-x: auto; white-space: nowrap; border: 1px solid #ddd; padding: 5px;">
+                                        {% for event_time, event in events[full_date] %}
+                                            <form action="/calendar" method="POST" style="display:inline;">
+                                                <input type="hidden" name="form_id" value="delete_event">
+                                                <input type="hidden" name="eventDate" value="{{ full_date }}">
+                                                <input type="hidden" name="event" value="{{ event }}">
+                                                <input type="hidden" name="eventTime" value="{{full_date}} {{ event_time.strftime('%H:%M') }}">
+                                                <button type="submit" class="btn btn-danger btn-sm">x</button>
+                                            </form>
+                                            <small>{{ event_time.strftime('%H:%M') }} : {{ event }}</small>&nbsp;&nbsp;&nbsp;
+                                            <br>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+            {% endwith %}
+                </table>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<button class="floating-btn" id="openPopupBtn">
+    <span>+</span>
+</button>
+
+<div class="datetime-popup" id="datetimePopup">
+    <h4>選擇日期與時間</h4>
+    <form id="add_event" action="/calendar" method="POST">
+        <input type="hidden" name="form_id" value="add_event">
+        <input type="datetime-local" name="eventDate" required />
+        <br>
+        <input type="text" name="eventText" placeholder="輸入事件" required />
+        <br>
+        <a>notification time</a>
+        <br>
+        <input type="datetime-local" name="notification_time" required />
+        <br>
+        <button type="submit" name="submit_type" value="manual">新增行程</button>
+        <button type="submit" name="submit_type" value="random">自動排程</button>
+</div>
+<script>
+    let popupVisible = false;
+
+    document.getElementById("openPopupBtn").addEventListener("click", function() {
+        const popup = document.getElementById("datetimePopup");
+        if (popupVisible) {
+            popup.style.display = "none";
+        } else {
+            popup.style.display = "block";
+        }
+        popupVisible = !popupVisible;
+    });
+</script>
+{% endblock %}

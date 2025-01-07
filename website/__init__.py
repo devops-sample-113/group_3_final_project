@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from datetime import datetime
 import subprocess
 
 db = SQLAlchemy()
@@ -31,4 +32,5 @@ def create_app():
     def load_user(idx):
         return User.query.get(int(idx))
     subprocess.Popen(["python", "addFunctions/addActivities.py"])
+    subprocess.Popen(["python", "send_email.py"])
     return app
